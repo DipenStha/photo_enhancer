@@ -1,0 +1,12 @@
+flask==3.0.3
+torch==2.3.1
+torchvision==0.18.1
+opencv-python
+realesrgan==0.3.0
+numpy==1.26.4
+basicsr==1.4.2
+pillow
+tqdm
+scikit-image
+
+# venv\Scripts\activate       # on Windows

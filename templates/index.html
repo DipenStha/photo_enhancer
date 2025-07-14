@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>HD Image Enhancer</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(to right, #3a1c71, #d76d77, #ffaf7b);
+            color: #fff;
+            text-align: center;
+            min-height: 100vh;
+        }
+
+        header {
+            padding: 2rem 1rem;
+        }
+
+        header h1 {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+            text-shadow: 2px 2px 4px #00000066;
+        }
+
+        form {
+            background: rgba(0, 0, 0, 0.4);
+            padding: 2rem;
+            border-radius: 1rem;
+            display: inline-block;
+            margin-bottom: 2rem;
+            animation: fadeIn 1s ease;
+        }
+
+        input[type="file"] {
+            padding: 0.8rem;
+            border-radius: 0.5rem;
+            border: none;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            background: #fff;
+            color: #333;
+        }
+
+        button {
+            padding: 0.8rem 2rem;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            background: #ffaf7b;
+            color: #fff;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        button:hover {
+            background: #d76d77;
+        }
+
+        .images-section {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 2rem;
+            padding-bottom: 2rem;
+        }
+
+        .image-box {
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 1rem;
+            padding: 1rem;
+            animation: fadeIn 1s ease;
+        }
+
+        .image-box h2 {
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+        }
+
+        .image-box img {
+            max-width: 300px;
+            border-radius: 0.5rem;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.5);
+        }
+
+        .download-link {
+            display: inline-block;
+            margin-top: 1rem;
+            padding: 0.8rem 1.5rem;
+            border-radius: 0.5rem;
+            background: #4caf50;
+            color: #fff;
+            text-decoration: none;
+            transition: background 0.3s ease;
+        }
+
+        .download-link:hover {
+            background: #45a049;
+        }
+
+        /* Spinner Styles */
+        .spinner-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(0,0,0,0.6);
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        .spinner {
+            border: 8px solid rgba(255, 255, 255, 0.3);
+            border-top: 8px solid #fff;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 1s linear infinite;
+        }
+
+        @keyframes spin {
+            0% {transform: rotate(0deg);}
+            100% {transform: rotate(360deg);}
+        }
+
+        @keyframes fadeIn {
+            from {opacity: 0;}
+            to {opacity: 1;}
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>✨ HD Image Enhancer ✨</h1>
+        <p>Turn your low-quality images into stunning high-definition pictures!</p>
+    </header>
+
+    <form method="POST" enctype="multipart/form-data" onsubmit="showSpinner()">
+        <input type="file" name="image" accept="image/*" required>
+        <br>
+        <button type="submit">Enhance Image</button>
+    </form>
+
+    <div class="spinner-overlay" id="spinner">
+        <div class="spinner"></div>
+    </div>
+
+    {% if original and enhanced%}
+    <section class="images-section">
+        <div class="image-box">
+            <h2>Original Image</h2>
+            <img src="{{ original }}" alt="Original Image" width="300">><br>
+            <strong>Size:</strong> {{ original_size }}<br><br>
+
+        </div>
+        <div class="image-box">
+            <h2>Enhanced Image</h2>
+            <img src="{{ enhanced }}" alt="Enhanced Image" width="300">><br>
+            <strong>Size:</strong> {{ enhanced_size }}<br><br>
+            <a href="{{ url_for('download_file', filename=enhanced.split('/')[-1]) }}">
+                <button>Download Enhanced Image</button>
+            </a>
+        </div>
+    </section>
+    {% endif %}
+
+    <script>
+        function showSpinner() {
+            document.getElementById('spinner').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
