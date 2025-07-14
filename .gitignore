@@ -1,51 +1,86 @@
-# Python
+# Ignore Python virtual environment
+venv/
+
+# Model weights
+*.pth
+weights/
+
+# Ignore large binaries and build files
+*.dll
+*.lib
+*.so
+*.dylib
+*.zip
+*.tar.gz
+
+# Ignore uploads
+static/uploads/*
+!static/uploads/.gitkeep
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Python cache
 __pycache__/
 *.py[cod]
-*.so
-*.egg-info/
+*.pyo
+*.pyd
+
+# IDEs
+.vscode/
+.idea/
+
+# Flask
+instance/
 .env
-venv/
 .env.*
 
 # Logs
 *.log
 
-# OS
-.DS_Store
-Thumbs.db
+# Notebook cache
+.ipynb_checkpoints/
+# Ignore Python virtual environment
+venv/
 
-# Image uploads and outputs
+# Model weights
+*.pth
+weights/
+
+# Ignore large binaries and build files
+*.dll
+*.lib
+*.so
+*.dylib
+*.zip
+*.tar.gz
+
+# Ignore uploads
 static/uploads/*
 !static/uploads/.gitkeep
 
-# Model weights
-weights/*.pth
-*.pth
+# OS files
+.DS_Store
+Thumbs.db
 
-# Jupyter notebooks checkpoints
-.ipynb_checkpoints/
-
-# VSCode
-.vscode/
-
-# PyCharm
-.idea/
-
-# Flask cache
-instance/
-
-# Byte-compiled
+# Python cache
+__pycache__/
+*.py[cod]
 *.pyo
 *.pyd
 
-# Test results
-coverage/
-*.cover
-*.py,cover
+# IDEs
+.vscode/
+.idea/
 
-# Large media files
-*.mp4
-*.avi
-*.mov
-*.zip
-*.tar.gz
+# Flask
+instance/
+.env
+.env.*
+
+# Logs
+*.log
+
+# Notebook cache
+.ipynb_checkpoints/
