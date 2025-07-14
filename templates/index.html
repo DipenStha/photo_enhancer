@@ -162,6 +162,12 @@
             <a href="{{ url_for('download_file', filename=enhanced.split('/')[-1]) }}">
                 <button>Download Enhanced Image</button>
             </a>
+            <!-- Toast Notification -->
+            <div id="toast" style="visibility:hidden; min-width: 250px; background-color: #333; color: #fff;
+                text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1;
+                left: 50%; bottom: 30px; transform: translateX(-50%); font-size: 17px;">
+            ✅ Image downloaded successfully!
+            </div>
         </div>
     </section>
     {% endif %}
@@ -170,6 +176,18 @@
         function showSpinner() {
             document.getElementById('spinner').style.display = 'flex';
         }
+        const downloadBtn = document.getElementById("downloadBtn");
+        const toast = document.getElementById("toast");
+
+        downloadBtn.addEventListener("click", () => {
+        setTimeout(() => {
+            toast.style.visibility = "visible";
+            setTimeout(() => {
+            toast.style.visibility = "hidden";
+            }, 3000);
+        }, 500); // slight delay to mimic file download
+        });
+  </script>
     </script>
 </body>
 </html>

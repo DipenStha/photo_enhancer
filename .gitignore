@@ -1,0 +1,51 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+*.egg-info/
+.env
+venv/
+.env.*
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Image uploads and outputs
+static/uploads/*
+!static/uploads/.gitkeep
+
+# Model weights
+weights/*.pth
+*.pth
+
+# Jupyter notebooks checkpoints
+.ipynb_checkpoints/
+
+# VSCode
+.vscode/
+
+# PyCharm
+.idea/
+
+# Flask cache
+instance/
+
+# Byte-compiled
+*.pyo
+*.pyd
+
+# Test results
+coverage/
+*.cover
+*.py,cover
+
+# Large media files
+*.mp4
+*.avi
+*.mov
+*.zip
+*.tar.gz
