@@ -115,8 +115,8 @@
             border: 8px solid rgba(255, 255, 255, 0.3);
             border-top: 8px solid #fff;
             border-radius: 50%;
-            width: 80px;
-            height: 80px;
+            width: 50px;
+            height: 50px;
             animation: spin 1s linear infinite;
         }
 
@@ -159,7 +159,7 @@
             <h2>Enhanced Image</h2>
             <img src="{{ enhanced }}" alt="Enhanced Image" width="300">><br>
             <strong>Size:</strong> {{ enhanced_size }}<br><br>
-            <a href="{{ url_for('download_file', filename=enhanced.split('/')[-1]) }}">
+            <a href="{{ url_for('download_file', filename=enhanced.split('/')[-1]) }}" id = "downloadBtn" class="btn">
                 <button>Download Enhanced Image</button>
             </a>
             <!-- Toast Notification -->
@@ -178,16 +178,25 @@
         }
         const downloadBtn = document.getElementById("downloadBtn");
         const toast = document.getElementById("toast");
+        downloadButton.addEventListener('click', function(e) {
+            e.preventDefault();
 
-        downloadBtn.addEventListener("click", () => {
-        setTimeout(() => {
-            toast.style.visibility = "visible";
-            setTimeout(() => {
-            toast.style.visibility = "hidden";
-            }, 3000);
-        }, 500); // slight delay to mimic file download
+            // Download the image
+            const link = downloadButton.getAttribute('href');
+            window.location.href = link;
+
+            // Show a success popup after download
+            Swal.fire({
+                title: 'Download Successful!',
+                text: 'Your enhanced image has been downloaded.',
+                icon: 'success',
+                confirmButtonText: 'Ok'
+            }).then(() => {
+                // Refresh the page after download popup
+                location.reload();
+            });
         });
-  </script>
+    
     </script>
 </body>
 </html>

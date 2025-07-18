@@ -51,6 +51,10 @@ def index():
 
             # Enhance image
             sr_img, _ = model.enhance(img)
+            
+            torch.cuda.empty_cache()
+            if sr_img is None:
+                return "Image enhancement failed."
 
             # Save enhanced image
             output_filename = f"enhanced_{img_file.filename}"

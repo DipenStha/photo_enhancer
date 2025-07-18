@@ -1,86 +1,22 @@
-# Ignore Python virtual environment
+# Ignore virtual environment
 venv/
+.env/
 
-# Model weights
-*.pth
-weights/
+# Ignore large model weights
+weights/*.pth
 
-# Ignore large binaries and build files
-*.dll
-*.lib
-*.so
-*.dylib
-*.zip
-*.tar.gz
+# Ignore uploaded files
+static/uploads/
 
-# Ignore uploads
-static/uploads/*
-!static/uploads/.gitkeep
-
-# OS files
-.DS_Store
-Thumbs.db
-
-# Python cache
+# Ignore pycache and system files
 __pycache__/
-*.py[cod]
+*.pyc
 *.pyo
 *.pyd
-
-# IDEs
-.vscode/
-.idea/
-
-# Flask
-instance/
-.env
-.env.*
-
-# Logs
-*.log
-
-# Notebook cache
-.ipynb_checkpoints/
-# Ignore Python virtual environment
-venv/
-
-# Model weights
-*.pth
-weights/
-
-# Ignore large binaries and build files
-*.dll
-*.lib
-*.so
-*.dylib
-*.zip
-*.tar.gz
-
-# Ignore uploads
-static/uploads/*
-!static/uploads/.gitkeep
-
-# OS files
 .DS_Store
-Thumbs.db
 
-# Python cache
-__pycache__/
-*.py[cod]
-*.pyo
-*.pyd
-
-# IDEs
+# VSCode settings
 .vscode/
-.idea/
 
-# Flask
-instance/
-.env
-.env.*
-
-# Logs
+# Log files
 *.log
-
-# Notebook cache
-.ipynb_checkpoints/
