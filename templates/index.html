@@ -1,6 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
     <meta charset="UTF-8">
     <title>HD Image Enhancer</title>
     <style>
@@ -140,8 +142,11 @@
     <form method="POST" enctype="multipart/form-data" onsubmit="showSpinner()">
         <input type="file" name="image" accept="image/*" required>
         <br>
+        
+    <br><br>
         <button type="submit">Enhance Image</button>
-    </form>
+    <br><br>
+    
 
     <div class="spinner-overlay" id="spinner">
         <div class="spinner"></div>
@@ -159,9 +164,20 @@
             <h2>Enhanced Image</h2>
             <img src="{{ enhanced }}" alt="Enhanced Image" width="300">><br>
             <strong>Size:</strong> {{ enhanced_size }}<br><br>
-            <a href="{{ url_for('download_file', filename=enhanced.split('/')[-1]) }}" id = "downloadBtn" class="btn">
-                <button>Download Enhanced Image</button>
+            
+            <!-- Format selection dropdown shown only AFTER enhancement -->
+            <label for="format">Download As:</label>
+            <select id="format" name="format" onchange="updateDownloadLink(this)">
+                <option value="same">Same as generated ({{ download_name.split('.')[-1] }})</option>
+                <option value="jpg">JPG</option>
+                <option value="png">PNG</option>
+                <option value="webp">WEBP</option>
+            </select><br><br>
+
+            <a class="download-link" id="downloadBtn" href="{{ url_for('download_file', filename=enhanced.split('/')[-1]) }}" id = "downloadBtn" class="btn">
+                Download Enhanced Image
             </a>
+            
             <!-- Toast Notification -->
             <div id="toast" style="visibility:hidden; min-width: 250px; background-color: #333; color: #fff;
                 text-align: center; border-radius: 8px; padding: 16px; position: fixed; z-index: 1;
@@ -169,34 +185,44 @@
             ✅ Image downloaded successfully!
             </div>
         </div>
+        </form>
     </section>
     {% endif %}
 
     <script>
+        function updateDownloadLink(select) {
+            const link = document.getElementById("downloadLink");
+            const base = "{{ download_name.rsplit('.', 1)[0] if download_name is defined else 'enhanced_image' }}";
+
+            const format = select.value;
+            if (format !== 'same') {
+                const newFilename = `${base}.${format}`;
+                link.setAttribute('download', newFilename);
+            } else {
+                link.setAttribute('download', "{{ download_name }}");
+            }
+         }
         function showSpinner() {
             document.getElementById('spinner').style.display = 'flex';
         }
         const downloadBtn = document.getElementById("downloadBtn");
-        const toast = document.getElementById("toast");
-        downloadButton.addEventListener('click', function(e) {
-            e.preventDefault();
+        if (downloadBtn) {
+            downloadBtn.addEventListener('click', function(e) {
+                e.preventDefault();
 
-            // Download the image
-            const link = downloadButton.getAttribute('href');
-            window.location.href = link;
+                const link = downloadBtn.getAttribute('href');
+                window.location.href = link;
 
-            // Show a success popup after download
-            Swal.fire({
-                title: 'Download Successful!',
-                text: 'Your enhanced image has been downloaded.',
-                icon: 'success',
-                confirmButtonText: 'Ok'
-            }).then(() => {
-                // Refresh the page after download popup
-                location.reload();
+                Swal.fire({
+                    title: 'Download Successful!',
+                    text: 'Your enhanced image has been downloaded.',
+                    icon: 'success',
+                    confirmButtonText: 'Ok'
+                }).then(() => {
+                    location.reload();
+                });
             });
-        });
-    
+        }
     </script>
 </body>
 </html>

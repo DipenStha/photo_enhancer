@@ -3,6 +3,7 @@ import os
 import cv2
 import torch
 import numpy as np
+from pathlib import Path
 from realesrgan import RealESRGANer
 from basicsr.archs.rrdbnet_arch import RRDBNet
 
@@ -37,6 +38,8 @@ def get_readable_size(path):
 def index():
     if request.method == 'POST':
         img_file = request.files['image']
+        output_format = request.form.get('format', 'jpg').lower()
+
         if img_file:
             input_path = os.path.join(UPLOAD_FOLDER, img_file.filename)
             img_file.save(input_path)
@@ -50,26 +53,38 @@ def index():
             img = img.astype(np.uint8)
 
             # Enhance image
-            sr_img, _ = model.enhance(img)
+            with torch.no_grad():
+                sr_img, _ = model.enhance(img)
             
-            torch.cuda.empty_cache()
-            if sr_img is None:
-                return "Image enhancement failed."
-
-            # Save enhanced image
-            output_filename = f"enhanced_{img_file.filename}"
+                if sr_img is None:
+                    return "Image enhancement failed."
+            # Save enhanced image using correct extension
+            valid_exts = {'jpg': '.jpg', 'png': '.png', 'webp': '.webp'}
+            ext = valid_exts.get(output_format, '.jpg')
+            # Save enhanced image in selected format
+            output_filename = f"enhanced_{Path(img_file.filename).stem}.{ext}"
             output_path = os.path.join(UPLOAD_FOLDER, output_filename)
+            
+            download_name = output_filename
+
+            # Convert back to BGR and save
             sr_bgr = cv2.cvtColor(sr_img, cv2.COLOR_RGB2BGR)
             cv2.imwrite(output_path, sr_bgr)
-                        # Get sizes
+            
+             # Clear memory
+            del sr_img
+            torch.cuda.empty_cache()
+            
+            # Get sizes
             original_size = get_readable_size(input_path)
             enhanced_size = get_readable_size(output_path)
 
             return render_template('index.html',
-                                  original=input_path.replace('\\', '/'),
+                original=input_path.replace('\\', '/'),
                 enhanced=output_path.replace('\\', '/'),
                 original_size=original_size,
-                enhanced_size=enhanced_size)
+                enhanced_size=enhanced_size,
+                download_name=download_name)
     return render_template('index.html')
 
 @app.route('/download/<filename>')
